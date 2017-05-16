@@ -36,3 +36,27 @@ hdfs dfs -ls /user/hive/warehouse/order_items/*
 # Validating tables under HIVE.
 # Enter pyspark
 
+from pyspark import SQLContext
+sqlContext = SQLContext(sc)
+
+# Create RDD of HIVE tables.
+ordersRDD = sc.textFile('/user/hive/warehouse/orders/*')
+order_itmesRDD = sc.textFile('/user/hive/warehouse/order_items/*')
+
+# Validating loaded HIVE tables.
+ordersRDD.take(3)
+order_itemsRDD.take(3)
+
+# Also, pyspark.sql.DataFrames can be created as well. Column names will be imported.
+sqlContext = HiveContext(sc)
+ordersDF = sqlContext.sql('SELECT * FROM orders')
+orderItemsDF = sqlContext.sql('SELECT * FROM order_items')
+type(df)
+
+# Join two tables (or say DataFrames).
+joinDF = sqlContext.sql('SELECT * FROM orders LEFT JOIN order_items ON orders.order_id=order_items.order_item_id')
+
+
+
+
+
