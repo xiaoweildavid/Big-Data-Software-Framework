@@ -1,0 +1,38 @@
+##############################################################################
+# Input data under Spark environment (Cloudera, ver 1.6.0) 
+# Use pre-stored database 'retail_db' as example.
+# First, validate the database in MySQL.
+
+mysql -u root -p
+SHOW databases;
+USE retail_db;
+SHOW tables;
+
+# Here tables 'orders' and 'order_items' will be used.
+SELECT * FROM orders LIMIT 2;
+SELECT * FROM order_items LIMIT 2;
+
+# Now transfer the data to HIVE.
+sqoop import \
+--connect jdbc:mysql://localhost:3306/retail_db \
+--username root \
+--password cloudera \
+--table orders \
+--target-dir=/user/hive/warehouse/orders \
+--hive-import
+
+sqoop import \
+--connect jdbc:mysql://localhost:3306/retail_db \
+--username root \
+--password cloudera \
+--table order_items \
+--target-dir=/user/hive/warehouse/order_items \
+--hive-import
+
+# Need to double-check import 2 tables simutaneously.
+hdfs dfs -ls /user/hive/warehouse/orders/*
+hdfs dfs -ls /user/hive/warehouse/order_items/*
+
+# Validating tables under HIVE.
+# Enter pyspark
+
