@@ -56,6 +56,15 @@ type(df)
 # Join two tables (or say DataFrames).
 joinDF = sqlContext.sql('SELECT * FROM orders LEFT JOIN order_items ON orders.order_id=order_items.order_item_id')
 
+# Get column values of a DF, cannot use DF['col'].
+order_id = joinDF.select('order_id')
+
+# Save DF to HDFS as JSON extension.
+ordersDF.write.format('JSON').save(path='/user/cloudera/ordersDF')
+
+
+
+
 
 
 
