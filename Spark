@@ -62,6 +62,15 @@ order_id = joinDF.select('order_id')
 # Save DF to HDFS as JSON extension.
 ordersDF.write.format('JSON').save(path='/user/cloudera/ordersDF')
 
+# Import HDFS table files as RDD under pyspark.
+ordersRDD = sc.textFile('/user/cloudera/orders/') # This is an example for textFiles, there are also jsonFiles, binaryFiles.
+# RDD to Hive Temp Table.
+?
+
+# Pyspark DataFrame to RDD.
+ordersRDD = ordersDF.rdd
+
+
 
 
 
