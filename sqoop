@@ -1,0 +1,13 @@
+# Sqoop import with boundary conditions.
+sqoop import \
+--connect jdbc:mysql://localhost:3306/retail_db \
+--username root \
+--password cloudera \
+--table customer \
+--hive-import \ # No need to mark 'target-dir', HDFS will automatially input the data into hive/warehouse.
+--boundary-query 'select min(customer_id), max(customer_id) from customers where customer_id<=100'
+# Note on command --boundary-query: 
+# By default sqoop will use query select min(<split-by>), max(<split-by>) 
+# from <table name> to find out boundaries for creating splits. 
+# In some cases this query is not the most optimal so you can specify any arbitrary query returning two numeric columns 
+# using --boundary-query argument.
