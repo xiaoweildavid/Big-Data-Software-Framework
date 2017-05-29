@@ -46,6 +46,8 @@ order_itmesRDD = sc.textFile('/user/hive/warehouse/order_items/*')
 # Validating loaded HIVE tables.
 ordersRDD.take(3)
 order_itemsRDD.take(3)
+# Or
+ordersRDD.show(3) # This format is more friendly.
 
 # Also, pyspark.sql.DataFrames can be created as well. Column names will be imported.
 sqlContext = HiveContext(sc)
@@ -64,8 +66,11 @@ ordersDF.write.format('JSON').save(path='/user/cloudera/ordersDF')
 
 # Import HDFS table files as RDD under pyspark.
 ordersRDD = sc.textFile('/user/cloudera/orders/') # This is an example for textFiles, there are also jsonFiles, binaryFiles.
-# RDD to Hive Temp Table.
-?
+
+# DF to Hive Temp Table.
+ordersDF.registerTempTable('orders_tt')
+# Validating
+HQL.sql('SELECT * FROM orders_tt').show(10) # Output the first 10 records.
 
 # Pyspark DataFrame to RDD.
 ordersRDD = ordersDF.rdd
