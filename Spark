@@ -70,8 +70,27 @@ ordersRDD = sc.textFile('/user/cloudera/orders/') # This is an example for textF
 # Pyspark DataFrame to RDD.
 ordersRDD = ordersDF.rdd
 
+************************************************************************
 
+# Operation on Hive by PySpark, using table retail_db.orders as example:
+from pyspark import SQLContext, HiveContext
+SQL = SQLContext(sc) # sc is the original spark context generated when pyspark starts.
+HQL = HiveContext(sc)
 
+# Create a table order_num_sum of customers and their total order numbers:
+HQL.sql('CREATE TABLE order_num_sum AS \
+SELECT order_customer_id, count(order_customer_id) as order_numbers FROM orders \
+GROUP BY order_customer_id ORDER BY order_numbers DESC')
+
+# Or if you want to see the generated table in PySpark:
+HQL.sql('SELECT * FROM order_num_sum ORDER BY order_numbers DESC LIMIT 10').show()
+
+# Save created table in different file formats:
+orderNumSumDF = HQL.sql('SELECT * FROM order_num_sum')
+orderNumSumDF.show(10)
+
+# Output the table as a test file into HDFS.
+orderNumSumDF.rdd.saveAsTextFile('/user/cloudera/fold') # The fold path cannot be pre-existed.
 
 
 
