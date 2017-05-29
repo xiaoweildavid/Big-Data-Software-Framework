@@ -1,0 +1,12 @@
+# Create new tables in Hive, here is an example.
+CREATE TABLE IF NOT EXISTS Table1 (
+ID INT,
+Department STRING,
+Name STRING,
+Date TIMESTAMP)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '|'
+STORED AS TEXTFILE;
+
+# Here is a link about the comparison of different data file formats. 
+# https://acadgild.com/blog/apache-hive-file-formats/
