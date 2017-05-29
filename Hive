@@ -10,3 +10,8 @@ STORED AS TEXTFILE;
 
 # Here is a link about the comparison of different data file formats. 
 # https://acadgild.com/blog/apache-hive-file-formats/
+# By default, if we use TEXTFILE format then each line is considered as a record.
+
+# Add values into the table.
+INSERT INTO Table1 VALUES (1,'Sales', 'Peter', '2012-01-01');
+
