@@ -103,5 +103,9 @@ orderNumSumDF.write.format("com.databricks.spark.avro").save("/user/cloudera/ord
 # Or as parquet format:
 orderNumSumDF.write.format("parquet").save("/user/cloudera/orderNumSumParquet")
 
+# Register a PySpark DF as a table in Hive:
+orderNumSumDF.saveAsTable("[Database_name].table")
 
+# Or register a table in parquet format:
+orderNumSumDF.write.mode("overwrite").format("parquet").saveAsTable("[Database_name].table")
 
