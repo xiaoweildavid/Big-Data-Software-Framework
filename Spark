@@ -97,8 +97,11 @@ orderNumSumDF.show(10)
 # Output the table as a test file into HDFS.
 orderNumSumDF.rdd.saveAsTextFile('/user/cloudera/fold') # The fold path cannot be pre-existed.
 
+# Output the DF as a avro format:
+orderNumSumDF.write.format("com.databricks.spark.avro").save("/user/cloudera/orderNumSum")
 
-
+# Or as parquet format:
+orderNumSumDF.write.format("parquet").save("/user/cloudera/orderNumSumParquet")
 
 
 
